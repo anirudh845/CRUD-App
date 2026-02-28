@@ -6,16 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", addTask)
 })
 
+// The function to load all the tasks
 const loadTasks = () => {
     fetch("/tasks")
         .then(response => {
             if (!response.ok) {
                 throw new Error("Failed to load tasks")
             }
-            return response.json()  // Fixed: Added missing response.json()
+            return response.json() 
         })
         .then(data => {
-            const taskContainer = document.querySelector(".tasks")
+            const taskContainer = document.querySelector(".tasks") // This is the task container that contains all tasks that are stacked one below the other
+
             taskContainer.innerHTML = ""
 
             data.forEach(task => {
@@ -63,8 +65,9 @@ const loadTasks = () => {
         .catch(error => console.error("Error loading tasks:", error))
 }
 
+// Add task function
 const addTask = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // this is used to prevent the browser from re-loading everytime
     const input = document.querySelector(".input")
     const taskText = input.value.trim()
 
@@ -91,6 +94,7 @@ const addTask = (event) => {
         .catch(error => console.error("Error adding task:", error))
 }
 
+//Update task function
 const updateTask = (id, currentText, taskRow, box, heading, updateBtn, deleteBtn) => {
     // Hide view mode elements
     box.style.display = "none"
@@ -117,7 +121,7 @@ const updateTask = (id, currentText, taskRow, box, heading, updateBtn, deleteBtn
 
     // Save button functionality
     saveBtn.addEventListener("click", () => {
-        const editedText = inputField.value.trim()  // Fixed: using inputField directly
+        const editedText = inputField.value.trim()
 
         if (!editedText) {
             alert("Task cannot be empty!")
@@ -162,7 +166,7 @@ const updateTask = (id, currentText, taskRow, box, heading, updateBtn, deleteBtn
             })
     })
 
-    // Cancel button functionality (Fixed: Added this)
+    // Cancel button functionality
     cancelBtn.addEventListener("click", () => {
         // Remove edit mode elements
         taskRow.removeChild(inputField)
@@ -176,6 +180,7 @@ const updateTask = (id, currentText, taskRow, box, heading, updateBtn, deleteBtn
     })
 }
 
+// Delete function
 const deleteTask = (id) => {
     const confirmDelete = confirm("Are you sure you want to delete this task?")
 
